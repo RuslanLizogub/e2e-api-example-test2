@@ -2,7 +2,12 @@
 # See here for details: https://circleci.com/developer/orbs/licensing
 version: 2.1
 # Use a package of configuration called an orb.
+
+jobs:
+  e2e_backend_example: api-tests/e2e_example
+
 workflows:
+  version: 2.1
   # Name the workflow "welcome"
   run-e2e-tests-workflow:
     # Run the welcome/run job in its own container
