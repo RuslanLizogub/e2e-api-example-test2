@@ -1,90 +1,21 @@
 # This code is licensed from CircleCI to the user under the MIT license.
 # See here for details: https://circleci.com/developer/orbs/licensing
 version: 2.1
-description: "Orb for Node.js applications and libraries."
+# Use a package of configuration called an orb.
 
-executors:
-  nodejs:
-    working_directory: "/docker/project"
-    docker:
-      - image: twuni/nodejs:15.11.0
+orbs:
+  api-tests: clicklogiq/tests@1
 
 jobs:
-  initialize:
-    executor: nodejs
-    steps:
-      - checkout
-#      - persist_to_workspace:
-#          root: /docker
-#          paths:
-#            - project
-#  install:
-#    executor: nodejs
-#    steps:
-#      - attach_workspace:
-#          at: /docker
-#      - restore_cache:
-#          keys:
-#            - v1-{{ checksum ".tool-versions" }}-yarn-lock-{{ checksum "yarn.lock" }}
-#      - run:
-#          name: Installing dependencies
-#          command: |
-#            yarn install --frozen-lockfile
-#      - save_cache:
-#          key: v1-{{ checksum ".tool-versions" }}-yarn-lock-{{ checksum "yarn.lock" }}
-#          paths:
-#            - node_modules
-#      - persist_to_workspace:
-#          root: /docker
-#          paths:
-#            - project/node_modules
-#  style:
-#    executor: nodejs
-#    steps:
-#      - attach_workspace:
-#          at: /docker
-#      - run:
-#          name: Checking code style
-#          command: |
-#            mkdir -vp reports
-#            yarn --silent lint --format junit --output-file reports/eslint.xml
-#      - store_test_results:
-#          path: reports
-#  test:
-#    executor: nodejs
-#    steps:
-#      - attach_workspace:
-#          at: /docker
-#      - run:
-#          name: Testing
-#          command: |
-#            mkdir -vp reports/junit
-#            yarn --silent test --reporter xunit > reports/junit/test-results.xml
-#      - store_test_results:
-#          path: reports/junit
-#  build:
-#    executor: nodejs
-#    steps:
-#      - attach_workspace:
-#          at: /docker
-#      - run:
-#          name: Building assets for production
-#          command: |
-#            NODE_ENV=production yarn build
-#      - store_artifacts:
-#          path: lib
-#      - persist_to_workspace:
-#          root: /docker
-#          paths:
-#            - project/lib
-#  documentation:
-#    executor: nodejs
-#    steps:
-#      - attach_workspace:
-#          at: /docker
-#      - run:
-#          name: Generating API documentation
-#          command: |
-#            yarn --silent documentation
-#      - store_artifacts:
-#          path: docs
+  e2e_backend_example: api-tests/e2e_example
+
+workflows:
+  version: 2.1
+  # Name the workflow "welcome"
+  run-e2e-tests-workflow:
+    # Run the welcome/run job in its own container
+    jobs:
+      - e2e_backend_example:
+          name: e2e-api-tests-job
+          executor_docker_image: 'circleci/node:14.15.1'
+          run_tests_command: "yarn testDefault"
