@@ -3,6 +3,9 @@
 version: 2.1
 # Use a package of configuration called an orb.
 
+orbs:
+  api-tests: example/tests@1
+
 jobs:
   e2e_backend_example: api-tests/e2e_example
 
