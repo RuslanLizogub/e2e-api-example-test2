@@ -12,7 +12,7 @@ workflows:
   run-e2e-tests-workflow:
     # Run the welcome/run job in its own container
     jobs:
-      - e2e_backend:
+      - e2e_backend_example:
           name: e2e-api-tests-job
           executor_docker_image: 'circleci/node:14.15.1'
           run_tests_command: "yarn testDefault"
