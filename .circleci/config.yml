@@ -22,6 +22,7 @@ jobs:
       - run: echo "this is the test job"
       - run: yarn install
       - run: ls
+      - run: yarn testDefault
 
 # Orchestrate our job run sequence
 workflows:
