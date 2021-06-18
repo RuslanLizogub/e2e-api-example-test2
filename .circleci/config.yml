@@ -10,21 +10,10 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: ruslanlizogub/protractor_e2e
+      - image: node:10.16.3
     steps:
       - checkout
-      - run: echo "this is the test job"
       - run: yarn install
-      - run: ls
-      - run: yarn testDefault
-  test2:
-    docker:
-      - image: ruslanlizogub/protractor_e2e
-    steps:
-      - checkout
-      - run: echo "this is the test job"
-      - run: yarn install
-      - run: ls
       - run: yarn testDefault
 
 # Orchestrate our job run sequence
@@ -32,4 +21,3 @@ workflows:
   test_e2e:
     jobs:
       - test
-      - test2
