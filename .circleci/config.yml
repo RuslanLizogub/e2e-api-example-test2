@@ -1,8 +1,23 @@
 version: 2.1
 
 # Define the jobs we want to run for this project
+# Config examples: https://circleci.com/docs/2.0/sample-config/
+# Image(ruslanlizogub/protractor_e2e), Dockerfile:
+#  FROM node:10.16.3
+#  WORKDIR /project
+#  RUN apt-get update && apt-get install -y sudo RUN apt install -y default-jre RUN yarn global add protractor
+#  CMD ["yarn", "e2e-dev-jenkins"]
 jobs:
   test:
+    docker:
+      - image: ruslanlizogub/protractor_e2e
+    steps:
+      - checkout
+      - run: echo "this is the test job"
+      - run: yarn install
+      - run: ls
+      - run: yarn testDefault
+  test2:
     docker:
       - image: ruslanlizogub/protractor_e2e
     steps:
@@ -17,3 +32,4 @@ workflows:
   test_e2e:
     jobs:
       - test
+      - test2
